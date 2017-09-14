@@ -31,17 +31,37 @@ app.post('/users', function(req, res) {
 
 app.post('/showusers', function(req, res) {
   console.log("")
-  var query2=connection.query("SELECT *  FROM users",function(err, result){
+  /*var query2=connection.query("SELECT *  FROM users",function(err, result,fields){
     if (err) {throw err;}
-      else {/*res.send(result);*/}  
+      else {
+        
+       console.log(result[0].solution)
+        res.json(result);}  
+           
+      
     
 
+  });*/
+  connection.connect(function(err) {
+    if (err) throw err;
+    connection.query("SELECT * FROM users", function (err, result, fields) {
+      if (err) throw err;
+      console.log(result);
+      res.setResponseHeader('Access-Control-Allow-Headers', '*');
+      res.setResponseHeader('Content-Type', 'application/json');
+      res.setResponseHeader('Access-Control-Allow-Origin', '*');
+
+      res.send(result);
+     
+
+
+    });
   });
    
-     res.end('Success');
+     res.end('success');
   });
 
 
-app.listen(9014, function() {
-  console.log('Example app listening on port 3000!');
+app.listen(9000, function() {
+  console.log('Example app listening on port 9000!');
 });
